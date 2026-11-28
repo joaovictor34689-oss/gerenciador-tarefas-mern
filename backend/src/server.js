@@ -4,8 +4,15 @@ const app = require('./app');
 const connectDB = require('./config/db');
 const PORT = process.env.PORT || 5000;
 
-if (!process.env.MONGODB_URI || !process.env.JWT_SECRET) {
-  console.error('Configure MONGODB_URI e JWT_SECRET no arquivo backend/.env.');
+if (
+  !process.env.MONGODB_URI ||
+  !process.env.JWT_SECRET ||
+  process.env.JWT_SECRET.length < 32 ||
+  process.env.JWT_SECRET === 'preencher_localmente'
+) {
+  console.error(
+    'Configure MONGODB_URI e um JWT_SECRET de pelo menos 32 caracteres no arquivo backend/.env.'
+  );
   process.exit(1);
 }
 

@@ -1,4 +1,5 @@
 const jwt = require('jsonwebtoken');
+const mongoose = require('mongoose');
 
 function requireAuth(req, res, next) {
   const authorization = req.get('Authorization');
@@ -10,10 +11,13 @@ function requireAuth(req, res, next) {
   const token = authorization.slice(7);
 
   try {
-    const payload = jwt.verify(token, process.env.JWT_SECRET);
+    const payload = jwt.verify(token, process.env.JWT_SECRET, { algorithms: ['HS256'] });
+    if (typeof payload.sub !== 'string' || !mongoose.isObjectIdOrHexString(payload.sub)) {
+      return res.status(401).json({ message: 'Token inválido. Faça login novamente.' });
+    }
     req.user = { id: payload.sub };
     return next();
-  } catch (error) {
+  } catch {
     return res.status(401).json({ message: 'Token inválido ou expirado. Faça login novamente.' });
   }
 }
