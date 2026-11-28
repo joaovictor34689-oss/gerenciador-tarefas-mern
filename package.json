@@ -1,0 +1,27 @@
+{
+  "name": "gerenciador-tarefas-mern",
+  "version": "1.0.0",
+  "private": true,
+  "packageManager": "pnpm@10.26.1",
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "scripts": {
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "dev": "pnpm -r --parallel dev",
+    "lint": "eslint .",
+    "check": "pnpm lint && pnpm --filter gerenciador-tarefas-backend check && pnpm --filter gerenciador-tarefas-frontend build",
+    "test": "pnpm --filter gerenciador-tarefas-backend test",
+    "test:e2e": "playwright test"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@playwright/test": "^1.65.1",
+    "eslint": "^10.16.0",
+    "eslint-plugin-react-hooks": "^7.1.1",
+    "eslint-plugin-react-refresh": "^0.5.8",
+    "globals": "^17.14.0",
+    "prettier": "^3.10.1"
+  }
+}

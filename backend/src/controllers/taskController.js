@@ -55,11 +55,10 @@ async function update(req, res, next) {
       return res.status(400).json({ message: 'Envie pelo menos um campo para atualizar.' });
     }
 
-    const task = await Task.findOneAndUpdate(
-      { _id: req.params.id, userId: req.user.id },
-      updates,
-      { new: true, runValidators: true }
-    );
+    const task = await Task.findOneAndUpdate({ _id: req.params.id, userId: req.user.id }, updates, {
+      returnDocument: 'after',
+      runValidators: true
+    });
 
     if (!task) {
       return res.status(404).json({ message: 'Tarefa não encontrada.' });

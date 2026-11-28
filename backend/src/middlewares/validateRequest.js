@@ -6,7 +6,7 @@ function validateRequest(req, res, next) {
   if (!result.isEmpty()) {
     return res.status(400).json({
       message: 'Confira os dados enviados.',
-      errors: result.array()
+      errors: result.array().map(({ path, msg }) => ({ field: path, message: msg }))
     });
   }
 

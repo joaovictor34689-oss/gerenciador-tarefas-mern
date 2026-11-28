@@ -7,22 +7,26 @@
   "scripts": {
     "dev": "nodemon src/server.js",
     "start": "node src/server.js",
+    "test": "node --test test/*.test.js",
     "check": "node --check src/server.js && node --check src/app.js && node --check src/config/db.js && node --check src/controllers/authController.js && node --check src/controllers/taskController.js && node --check src/middlewares/authMiddleware.js && node --check src/middlewares/errorMiddleware.js && node --check src/middlewares/validateRequest.js && node --check src/models/User.js && node --check src/models/Task.js && node --check src/routes/authRoutes.js && node --check src/routes/taskRoutes.js"
   },
   "engines": {
-    "node": ">=20"
+    "node": ">=22.12.0"
   },
   "dependencies": {
     "bcrypt": "^6.0.0",
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
+    "express-rate-limit": "^8.7.5",
     "express-validator": "^7.2.1",
     "helmet": "^8.0.0",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^9.12.1"
   },
   "devDependencies": {
-    "nodemon": "^3.1.7"
+    "mongodb-memory-server": "^11.4.0",
+    "nodemon": "^3.1.7",
+    "supertest": "^7.3.2"
   }
 }

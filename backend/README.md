@@ -4,28 +4,28 @@ API REST em Node.js, Express e MongoDB/Mongoose. Cadastro e login usam bcrypt pa
 
 ## Configurar
 
-1. Instale Node.js LTS (versão 20 ou superior).
-2. Entre nesta pasta e execute npm install.
+1. Instale Node.js 22.12 ou superior e pnpm 10.26.1.
+2. Na raiz do repositório, execute pnpm install --frozen-lockfile. Depois entre em backend.
 3. Copie .env.example para .env.
-4. Preencha PORT, MONGODB_URI, JWT_SECRET e CLIENT_ORIGIN. Use a URI do usuário de banco criado no MongoDB Atlas. Gere um JWT secret localmente. Nunca publique o arquivo .env.
-5. Execute npm run check para verificar sintaxe e npm run dev para iniciar em desenvolvimento.
+4. Preencha PORT, MONGODB_URI, JWT_SECRET e CLIENT_ORIGIN. Use MongoDB local ou Atlas. Gere um JWT secret aleatório com pelo menos 32 caracteres localmente. Nunca publique o arquivo .env.
+5. Execute pnpm check para verificar sintaxe e pnpm dev para iniciar em desenvolvimento.
 6. GET http://localhost:5000/api/health deve responder { "status": "ok" }.
 
 O serviço só inicia quando consegue conectar ao MongoDB. Se a conexão falhar, confira a URI, a senha do usuário de banco e o IP autorizado em Network Access no Atlas.
 
 ## Rotas
 
-| Método | Rota | Acesso | Descrição |
-|---|---|---|---|
-| GET | /api/health | Público | Estado da API |
-| POST | /api/auth/register | Público | Cria usuário e retorna token |
-| POST | /api/auth/login | Público | Confere credenciais e retorna token |
-| GET | /api/auth/me | Token | Retorna perfil público do usuário atual |
-| GET | /api/tasks | Token | Lista tarefas do usuário atual |
-| POST | /api/tasks | Token | Cria tarefa para o usuário atual |
-| GET | /api/tasks/:id | Token | Busca tarefa própria |
-| PUT | /api/tasks/:id | Token | Atualiza campos permitidos de tarefa própria |
-| DELETE | /api/tasks/:id | Token | Exclui tarefa própria |
+| Método | Rota               | Acesso  | Descrição                                    |
+| ------ | ------------------ | ------- | -------------------------------------------- |
+| GET    | /api/health        | Público | Estado da API                                |
+| POST   | /api/auth/register | Público | Cria usuário e retorna token                 |
+| POST   | /api/auth/login    | Público | Confere credenciais e retorna token          |
+| GET    | /api/auth/me       | Token   | Retorna perfil público do usuário atual      |
+| GET    | /api/tasks         | Token   | Lista tarefas do usuário atual               |
+| POST   | /api/tasks         | Token   | Cria tarefa para o usuário atual             |
+| GET    | /api/tasks/:id     | Token   | Busca tarefa própria                         |
+| PUT    | /api/tasks/:id     | Token   | Atualiza campos permitidos de tarefa própria |
+| DELETE | /api/tasks/:id     | Token   | Exclui tarefa própria                        |
 
 Use o endereço base http://localhost:5000. Envie JSON com Content-Type application/json. Nas rotas protegidas, envie Authorization: Bearer SEU_TOKEN.
 
@@ -37,9 +37,9 @@ Login: { "email": "ana@example.com", "password": "SenhaTeste123!" }
 
 Criar tarefa: { "title": "Estudar", "description": "Revisar MERN", "priority": "high" }
 
-Os valores de status são pending ou completed. Os valores de priority são low, medium ou high. A tarefa recebe status pending e prioridade medium quando não informados.
+Os valores de status são pending ou completed. Os valores de priority são low, medium ou high. A tarefa recebe status pending e prioridade medium quando não informados. dueDate aceita data ISO 8601 ou null para remover o prazo.
 
-Respostas de autenticação incluem token e perfil público. O hash de senha nunca é devolvido. Erros retornam um objeto com message; erros de validação também incluem errors.
+Respostas de autenticação incluem token e perfil público. O hash de senha nunca é devolvido. Erros retornam um objeto com message; erros de validação também incluem errors com field e message, sem valores recebidos. Autenticação limita tentativas malsucedidas por IP. Consulte o README da raiz para testes automatizados, instalação completa e Docker.
 
 ## Testes manuais
 
